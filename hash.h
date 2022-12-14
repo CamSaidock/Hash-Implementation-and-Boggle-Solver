@@ -29,20 +29,20 @@ struct MyStringHash {
 				int index = signed(k.size());
 				std::string holder = k;
 				int count = 0;
-				for(int i = 4; i >= 0; i--) {
-					std::string substring = holder.substr(std::max(0,index-6), index);
-					holder = holder.substr(0, std::max(0,index-6));
-					for(int y = substring.size()-1; y >= 0; y--) {
-						w[i] += pow(36, count) * letterDigitToNumber(substring[y]);
-						count++;
+
+				for(int i = 4; i >= 0; i--) { //Index through each w[i]
+					std::string substring = holder.substr(std::max(0,index-6), index); //Create a substring from holder to get every set of 6 letters
+					holder = holder.substr(0, std::max(0,index-6)); //Adjust holder to get rid of the previous 6 letters
+					for(int y = substring.size()-1; y >= 0; y--) { //Iterate through the new substring
+						w[i] += pow(36, count) * letterDigitToNumber(substring[y]); //Add to w[i]
+						count++; //Increment count to adjust exponent
 					}
 					count = 0;
 					index = signed(holder.size());
 				}
 
 				HASH_INDEX_T result = 0;
-				for(int i = 0; i < 5; i++){
-					std::cout << "w[" << i << "]: " << w[i] << std::endl;
+				for(int i = 0; i < 5; i++){ //Sum rValues & w[i]
 					result += rValues[i] * w[i];
 				}
 
@@ -54,7 +54,6 @@ struct MyStringHash {
     {
         // Add code here or delete this helper function if you do not want it
 				HASH_INDEX_T convert = int(std::tolower(letter));
-				std::cout << "Convert: " << convert << std::endl;
 				if(convert >= 48 && convert <= 57) {
 					convert -= 22;
 				}
